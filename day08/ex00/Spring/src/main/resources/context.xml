@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id = "preprocessorToUpperImpl"
+          class="logic.preprocessor.PreProcessorToUpperImpl">
+    </bean>
+
+    <bean id = "preProcessorToLower"
+          class="logic.preprocessor.PreProcessorToLower">
+    </bean>
+
+    <bean id = "rendererErrImpl"
+          class="logic.renderer.RendererErrImpl">
+        <constructor-arg name="preProcessor" ref="preprocessorToUpperImpl"/>
+    </bean>
+
+    <bean id = "rendererStandardImpl"
+          class="logic.renderer.RendererStandardImpl">
+        <constructor-arg name="preProcessor" ref="preProcessorToLower"/>
+    </bean>
+
+    <bean id = "printerWithPrefix"
+          class="logic.printer.PrinterWithPrefixImpl">
+            <constructor-arg name="renderer" ref="rendererErrImpl"/>
+            <property name="prefix" value="Prefix "/>
+    </bean>
+
+    <bean id = "printerWithDateTime"
+          class="logic.printer.PrinterWithDateTimeImpl">
+        <constructor-arg name="renderer" ref="rendererStandardImpl"/>
+    </bean>
+</beans>
